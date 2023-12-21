@@ -14,7 +14,7 @@ const initialUser = () => {
             city: 'Hà Nội',
             nation: 'Việt Nam'
         },
-        hobbies: ['playing badminton', 'swimming', 'reading books']
+        hobbies: ['playing badminton', 'swimming', 'reading books', 'go fishing', 'playing soccer']
     }
 }
 
@@ -22,33 +22,13 @@ const initialUser = () => {
 
 const User = () => {
     const [user, setUser] = useState(initialUser);
-    const [hobbyText, setHobbyText] = useState('');
+    const [newHobby, setNewHobby] = useState('');
     const [reRender, setReRender] = useState(false);
 
     const forceRender = () => {
         setReRender(!reRender);
     }
 
-
-    //Đoạn này ạ
-    const hanldeAddHobby = (e) => {
-        if (e.key === 'Enter') {
-            if (hobbyText !== '') {
-                let copyUser = { ...user };
-                if (!copyUser.hobbies.includes(hobbyText)) {
-                    copyUser.hobbies.push(hobbyText);
-                } else {
-                    copyUser.hobbies = copyUser.hobbies.filter((hobby) => hobby !== hobbyText)
-                }
-                setUser(copyUser);
-            }
-        }
-    }
-
-    //Đoạn này nữa ạ
-    const handleDeleteHobby = (index) => {
-        console.log('Index : ', index);
-    }
 
     const handleInputChangeCity = (e) => {
         setUser((prevUser) => {
@@ -83,19 +63,46 @@ const User = () => {
         })
     }
 
+    //Chưa chữa đc đoạn này
+    const handleKeyUp = (e) => {
+        console.log('Key pressed:', e.key);
+        if (e.key === 'Enter') {
+            e.preventDefault(); // Prevent form submission
+            console.log('Adding hobby:', newHobby);
+            if (newHobby.trim() !== '') {
+                setUser((prevUser) => ({
+                    ...prevUser,
+                    hobbies: [...prevUser.hobbies, newHobby.trim()],
+                }));
+                setNewHobby('');
+            }
+        }
+    };
+
+    const handleDeleteHobby = (index) => {
+        setUser((prevUser) => {
+            const newHobbies = [...prevUser.hobbies];
+            newHobbies.splice(index, 1);
+            return {
+                ...prevUser,
+                hobbies: newHobbies,
+            };
+        });
+    };
+
     const handleSubmit = () => {
         console.log(user);
     }
 
-    // useEffect(() => {
-    //     console.log('Re-render');
-    // }, [user])
+    useEffect(() => {
+        console.log('Re-render');
+    }, [user])
 
     return (
         <div className="AddTagContainer">
             <div className="addTagBox">
                 <h5>User</h5>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
                     <label htmlFor="name">Name</label>
                     <input
                         type="text"
@@ -147,9 +154,9 @@ const User = () => {
                             })
                         }
                         <input className="inputTag" type="text" autoFocus
-                            value={hobbyText}
-                            onKeyUpCapture={(e) => { hanldeAddHobby(e) }}
-                            onChange={(e) => setHobbyText(e.target.value)}
+                            value={newHobby}
+                            onKeyUp={handleKeyUp}
+                            onChange={(e) => setNewHobby(e.target.value)}
                         />
                     </div>
                     <input type="submit" value="Save"></input>
