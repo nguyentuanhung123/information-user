@@ -65,15 +65,16 @@ const User = () => {
 
     //Đã chữa đc đoạn này
     const handleKeyUp = (e) => {
-        console.log('Key pressed:', e.key);
         if (e.key === 'Enter') {
             e.preventDefault(); // Prevent form submission
-            console.log('Adding hobby:', newHobby);
-            if (newHobby.trim() !== '') {
+            if (newHobby.trim() !== '' && !user.hobbies.includes(newHobby.trim())) {
                 setUser((prevUser) => ({
                     ...prevUser,
                     hobbies: [...prevUser.hobbies, newHobby.trim()],
                 }));
+                setNewHobby('');
+            }
+            else {
                 setNewHobby('');
             }
         }
