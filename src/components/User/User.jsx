@@ -63,7 +63,7 @@ const User = () => {
         })
     }
 
-    //Chưa chữa đc đoạn này
+    //Đã chữa đc đoạn này
     const handleKeyUp = (e) => {
         console.log('Key pressed:', e.key);
         if (e.key === 'Enter') {
@@ -79,6 +79,7 @@ const User = () => {
         }
     };
 
+    //Đã chữa đc đoạn này
     const handleDeleteHobby = (index) => {
         setUser((prevUser) => {
             const newHobbies = [...prevUser.hobbies];
