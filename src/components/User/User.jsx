@@ -68,10 +68,12 @@ const User = () => {
         if (e.key === 'Enter') {
             e.preventDefault(); // Prevent form submission
             if (newHobby.trim() !== '' && !user.hobbies.includes(newHobby.trim())) {
-                setUser((prevUser) => ({
-                    ...prevUser,
-                    hobbies: [...prevUser.hobbies, newHobby.trim()],
-                }));
+                setUser((prevUser) => {
+                    return {
+                        ...prevUser,
+                        hobbies: [...prevUser.hobbies, newHobby.trim()]
+                    }
+                });
                 setNewHobby('');
             }
             else {
@@ -116,7 +118,7 @@ const User = () => {
                     />
                     <label htmlFor="age">Age</label>
                     <input
-                        type="text"
+                        type="number"
                         id="age"
                         name="age"
                         placeholder="Your Age ..."
